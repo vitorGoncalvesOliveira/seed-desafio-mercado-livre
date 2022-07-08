@@ -1,0 +1,42 @@
+### GET USER
+GET http://localhost:3000/user
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NTcxNTQxMjEsImV4cCI6MTY1NzE1NDE4MX0.TIFtqfPdvpEbYZjHSPna1sOcSMf9OIMzT0tP7y6LlEY
+
+
+### POST CREATE USER
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+    "name":"teste",
+    "email":"vitor@teste2.com",
+    "password":"novo"
+}
+
+
+### Get One User
+GET http://localhost:3000/user/teste4dependencies@teste.com
+Content-Type: application/json
+
+
+### POST USER LOGIN
+POST http://localhost:3000/user/login
+Content-Type: application/json
+
+{
+    "name":"teste",
+    "email":"vitor@teste.com",
+    "password":"novo"
+}
+
+
+### POST auth LOGIN
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "name":"teste",
+    "email":"vitor@teste.com",
+    "password":"novo"
+}
