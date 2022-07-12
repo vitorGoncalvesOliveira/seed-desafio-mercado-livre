@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { User } from '@prisma/client';
-import { Cripto } from '../user/cripto';
+import { Cripto } from '../cripto';
 import { JwtService } from '@nestjs/jwt';
 
 interface userLogin {

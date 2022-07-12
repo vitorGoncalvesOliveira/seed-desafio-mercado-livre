@@ -1,26 +1,27 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { PrismaService } from './prisma.service';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { AppController } from './app.controller';
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-    }),
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'mercado_livre_db',
-      entities: [__dirname + '/**/*.entity{.ts.js}'],
-      synchronize: true,
+      envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
     UserModule,
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [PrismaService],
+  providers: [
+    PrismaService,
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe,
+    },
+  ],
 })
 export class AppModule {}
