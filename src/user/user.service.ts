@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../infrastructure/prisma/prisma.service';
 import { Prisma, User } from '@prisma/client';
 import { Cripto } from '../cripto';
 
@@ -16,7 +16,7 @@ export class UserService {
     return this.prisma.user.findMany({});
   }
 
-  async findOne(email): Promise<User> {
+  async findOneByEmail(email): Promise<User> {
     return this.prisma.user.findUnique({
       where: { email },
     });

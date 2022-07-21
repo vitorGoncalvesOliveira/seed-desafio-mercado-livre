@@ -9,33 +9,31 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 
-import { UserService } from '../user/user.service';
+import { CategoryService } from './category.service';
 
 @Injectable()
 @ValidatorConstraint({ async: true })
-export class IsEmailAlreadyExistConstraint
-  implements ValidatorConstraintInterface
-{
-  constructor(private userService: UserService) {}
+export class IsCategoryExistConstraint implements ValidatorConstraintInterface {
+  constructor(private categoryService: CategoryService) {}
 
   async validate(
-    email: string,
+    name: string,
     validationArguments?: ValidationArguments,
   ): Promise<boolean> {
-    const user = await this.userService.findOneByEmail(email);
+    const user = await this.categoryService.findOneByName(name);
     if (user) return false;
     return true;
   }
 }
 
-export function IsEmailAlreadyExist(validateOptions?: ValidationOptions) {
+export function IsCategoryExist(validateOptions?: ValidationOptions) {
   return function (object: Object, propertyName: string) {
     registerDecorator({
       target: object.constructor,
       propertyName: propertyName,
       options: validateOptions,
       constraints: [],
-      validator: IsEmailAlreadyExistConstraint,
+      validator: IsCategoryExistConstraint,
     });
   };
 }

@@ -16,7 +16,7 @@ export class AuthService {
   ) {}
 
   async validateUser(user: userLogin): Promise<Omit<User, 'password'>> {
-    const userToValidate = await this.userService.findOne(user.email);
+    const userToValidate = await this.userService.findOneByEmail(user.email);
     if (await Cripto.comparePassword(user.password, userToValidate.password)) {
       const { password, ...userData } = userToValidate;
       return userData;
@@ -24,9 +24,9 @@ export class AuthService {
     return null;
   }
 
-  async login(user: User) {
+  async login({ user }) {
     const payload = { username: user.name, sub: user.id };
-
+    console.log({ user });
     return {
       access_token: this.jwtService.sign(payload),
     };

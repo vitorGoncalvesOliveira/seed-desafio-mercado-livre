@@ -11,10 +11,37 @@ datasource db {
 }
 
 model User {
-  id    Int     @default(autoincrement()) @id
-  email String  @unique
-  name  String
-  password String
-  createdAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  id              Int     @default(autoincrement()) @id
+  email           String  @unique
+  name            String
+  password        String
+  products        Product[]
+  createdAt       DateTime @default(now())
+  updateAt        DateTime @updatedAt
+}
+
+model Category {
+  id                        Int    @id @default(autoincrement()) 
+  name                      String @unique
+  mother_category           Category? @relation("MotherCategory",fields: [id_mother_category], references: [id])
+  child_category            Category[] @relation("MotherCategory")
+  id_mother_category        Int? 
+  products                  Product[]
+  createdAt                 DateTime @default(now())
+  updateAt                  DateTime @updatedAt
+}
+
+model Product {
+  id                        Int @id @default(autoincrement())
+  name                      String
+  value                     Float
+  amount                    Int
+  characters                String
+  detail                    String
+  category                  Category @relation(fields: [category_id], references: [id])
+  user                      User @relation(fields: [user_id],references: [id])
+  user_id                   Int
+  category_id               Int
+  createdAt                 DateTime @default(now())
+  updateAt                  DateTime @updatedAt
 }

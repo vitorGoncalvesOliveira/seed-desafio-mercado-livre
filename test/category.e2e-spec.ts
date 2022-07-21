@@ -20,63 +20,53 @@ describe('UserController (e2e)', () => {
     await app.init();
   });
 
-  it('/user (POST) create user sucessfuly', async () => {
-    await prismaService.user.deleteMany({});
+  it('/category (POST) create a category sucessfuly', async () => {
+    await prismaService.category.deleteMany({});
     const { status, body } = await request(app.getHttpServer())
-      .post('/user')
+      .post('/category')
       .send({
         name: 'teste',
-        email: 'teste@teste.com',
-        password: '123456',
       });
     expect(status).toBe(201);
     expect(body.name).toBe('teste');
-    expect(body.passport).not.toBe('123456');
+    expect(body.createdAt).toBeDefined();
   });
 
-  it('/user (POST), password should has at least 6 character', async () => {
+  it('/category (POST) category name not to be empty', async () => {
+    await prismaService.category.deleteMany({});
     const { status, body } = await request(app.getHttpServer())
-      .post('/user')
+      .post('/category')
       .send({
-        name: 'teste',
-        email: 'teste15@teste.com',
-        password: '1234',
+        name: '',
       });
     expect(status).toBe(400);
-    expect(body.message).toEqual(['Password has to be at least 6 characters']);
+    expect(body.message).toEqual(['name should not be empty']);
   });
 
-  it('/user (POST), login not be empty', async () => {
-    const { status, body } = await request(app.getHttpServer())
-      .post('/user')
-      .send({
-        name: 'teste',
-        email: '',
-        password: '',
-      });
-    expect(status).toBe(400);
-    expect(body.message).toEqual([
-      'email must be an email',
-      'Password has to be at least 6 characters',
-      'password should not be empty',
-    ]);
-  });
-
-  it('/user (POST), login not be duplicated', async () => {
-    await prismaService.user.deleteMany({});
-    await request(app.getHttpServer()).post('/user').send({
+  it('/category (POST) category name already exist', async () => {
+    await prismaService.category.deleteMany({});
+    await request(app.getHttpServer()).post('/category').send({
       name: 'teste',
-      email: 'teste2@teste.com',
-      password: '123456',
     });
     const { status, body } = await request(app.getHttpServer())
-      .post('/user')
+      .post('/category')
       .send({
         name: 'teste',
-        email: 'teste2@teste.com',
-        password: '123456',
       });
     expect(status).toBe(400);
-    expect(body.message).toEqual(['E-mail already exist']);
+    expect(body.message).toEqual(['Category already exist']);
+  });
+
+  it('/category (POST) create a category with mother category', async () => {
+    await prismaService.category.deleteMany({});
+
+    const { status, body } = await request(app.getHttpServer())
+      .post('/category')
+      .send({
+        name: 'teste',
+        motherCategory: 'teste1',
+      });
+    console.log({ body });
+    expect(status).toBe(201);
   });
 });

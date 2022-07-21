@@ -1,0 +1,9 @@
+### POST CREATE CATEGORY
+POST http://localhost:3000/category
+Content-Type: application/json
+
+{
+    "name":"Perfume",
+    "motherCategory": "Cosmetico"
+}
+

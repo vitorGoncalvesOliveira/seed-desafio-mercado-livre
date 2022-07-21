@@ -40,3 +40,17 @@ Content-Type: application/json
     "email":"vitor@teste.com",
     "password":"novo"
 }
+
+### Create a product
+POST http://localhost:3000/product
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RlIiwic3ViIjo5LCJpYXQiOjE2NTgzMjc2ODEsImV4cCI6MTY1ODQxNDA4MX0.qIP6ZFdatjlBKYQZl_lUhWeBAoi64HAhP_UIMtlGZ14
+
+{
+    "name": "produto 1",
+    "value": 10.0,
+    "amount":2,
+    "characters":["produto","bom", "qualidade"],
+    "detail": "Aquele produto de respeito",
+    "category": "Eletronico"  
+}

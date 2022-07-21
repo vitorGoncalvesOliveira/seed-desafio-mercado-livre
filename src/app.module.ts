@@ -1,10 +1,12 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { UserModule } from './user/user.module';
-import { PrismaService } from './prisma.service';
+import { PrismaModule } from './infrastructure/prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { AppController } from './app.controller';
 import { APP_PIPE } from '@nestjs/core';
+import { CategoryModule } from './category/category.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -14,10 +16,12 @@ import { APP_PIPE } from '@nestjs/core';
     }),
     UserModule,
     AuthModule,
+    PrismaModule,
+    CategoryModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [
-    PrismaService,
     {
       provide: APP_PIPE,
       useClass: ValidationPipe,
