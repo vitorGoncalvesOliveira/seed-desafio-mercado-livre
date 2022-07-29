@@ -17,6 +17,34 @@ describe('ProductService', () => {
                 data.createdAt = new Date();
                 return data;
               },
+              findUnique: ({}) => {
+                return {
+                  amount: 10,
+                  category: 'teste',
+                  characters: ['teste', 'test'],
+                  detail: 'teste de um produto',
+                  name: 'teste',
+                  user_id: 1,
+                  value: 30.2,
+                };
+              },
+            },
+            image: {
+              create: () => {
+                return {
+                  id: 1,
+                  url: 'teste/teste',
+                  products: {
+                    amount: 10,
+                    category: 'teste',
+                    characters: ['teste', 'test'],
+                    detail: 'teste de um produto',
+                    name: 'teste',
+                    user_id: 1,
+                    value: 30.2,
+                  },
+                };
+              },
             },
           },
         },
@@ -58,5 +86,11 @@ describe('ProductService', () => {
       user: { connect: { id: 1 } },
       value: 30.2,
     });
+  });
+
+  it('should be able to receive a file of product', async () => {
+    const product = await productService.uploadImage(1, 1, 'sdahjhkd', 'name');
+    expect(product.url).toBe('teste/teste');
+    expect(product.product).toBe('teste');
   });
 });

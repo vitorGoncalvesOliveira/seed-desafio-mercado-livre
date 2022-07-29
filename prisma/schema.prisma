@@ -42,6 +42,16 @@ model Product {
   user                      User @relation(fields: [user_id],references: [id])
   user_id                   Int
   category_id               Int
+  images                    Image []
   createdAt                 DateTime @default(now())
   updateAt                  DateTime @updatedAt
+}
+
+model Image {
+    id                      Int @id @default(autoincrement())
+    product_id              Int
+    products                Product @relation(fields: [product_id], references: [id])
+    url                     String
+    name                    String
+
 }
