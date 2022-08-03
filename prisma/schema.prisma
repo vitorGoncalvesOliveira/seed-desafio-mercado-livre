@@ -18,6 +18,7 @@ model User {
   products        Product[]
   createdAt       DateTime @default(now())
   updateAt        DateTime @updatedAt
+  questions       Question[]
 }
 
 model Category {
@@ -43,6 +44,7 @@ model Product {
   user_id                   Int
   category_id               Int
   images                    Image []
+  questions                 Question []
   createdAt                 DateTime @default(now())
   updateAt                  DateTime @updatedAt
 }
@@ -54,4 +56,13 @@ model Image {
     url                     String
     name                    String
 
+}
+
+model Question {
+  id                        Int @id @default(autoincrement())
+  title                     String
+  user                      User @relation(fields: [id_user], references: [id])
+  id_user                   Int
+  product                   Product @relation(fields: [product_id], references: [id])
+  product_id                Int
 }
