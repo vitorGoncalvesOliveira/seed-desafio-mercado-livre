@@ -18,6 +18,7 @@ export class AuthService {
   async validateUser(user: userLogin): Promise<Omit<User, 'password'>> {
     const userToValidate = await this.userService.findOneByEmail(user.email);
     if (await Cripto.comparePassword(user.password, userToValidate.password)) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...userData } = userToValidate;
       return userData;
     }

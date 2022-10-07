@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from '../infrastructure/prisma/prisma.service';
 import { Product } from '@prisma/client';
+import { ProductRepository } from './product.repository';
 import { ProductCreateDTO } from './DTO/produc.create.dto';
 import { UploadFile } from 'src/util/uploadfile';
 
@@ -13,37 +14,17 @@ interface productImageResponse {
 @Injectable()
 export class ProductService {
   constructor(
+    private productRepository: ProductRepository,
     private prismaService: PrismaService,
     private uploadFile: UploadFile,
   ) {}
 
   async createProduct(product: ProductCreateDTO): Promise<Product> {
-    return this.prismaService.product.create({
-      data: {
-        amount: product.amount,
-        name: product.name,
-        detail: product.detail,
-        value: product.value,
-        characters: product.characters.toString(),
-        category: {
-          connectOrCreate: {
-            create: { name: product.category },
-            where: { name: product.category },
-          },
-        },
-        user: {
-          connect: {
-            id: product.user_id,
-          },
-        },
-      },
-    });
+    return this.productRepository.saveProduct(product);
   }
 
   async findProductById(productId: number): Promise<Product> {
-    const product = await this.prismaService.product.findUnique({
-      where: { id: productId },
-    });
+    const product = await this.productRepository.findProductById(productId);
     if (product) {
       return product;
     }
