@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { PrismaService } from '../infrastructure/prisma/prisma.service';
-import { Prisma } from '@prisma/client';
+
 @Injectable()
 export class QuestionService {
   constructor(private prisma: PrismaService) {}
@@ -20,6 +20,10 @@ export class QuestionService {
             id: createQuestionDto.product_id,
           },
         },
+      },
+      include: {
+        user: true,
+        product: true,
       },
     });
   }
